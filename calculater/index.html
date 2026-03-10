@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <meta name="description" content="A premium, realistic calculator with full functionality.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="scene">
+        <!-- Background particles -->
+        <div class="particles" id="particles"></div>
+
+        <div class="calculator" id="calculator">
+            <!-- Brand strip -->
+            <div class="brand-strip">
+                <span class="brand-model">CALC · PRO <span class="model-num">FX-991</span></span>
+                <div class="led-indicators">
+                    <span class="led active"></span>
+                    <span class="led"></span>
+                    <span class="led"></span>
+                </div>
+            </div>
+
+            <!-- Display panel -->
+            <div class="display-panel">
+                <div class="display-inner">
+                    <div class="display-meta">
+                        <span class="mode-badge" id="modeBadge">DEG</span>
+                        <div class="mem-indicators">
+                            <span class="mem-label" id="memInd" style="display:none">M</span>
+                        </div>
+                    </div>
+                    <div id="expression" class="expression"></div>
+                    <div id="result" class="result">0</div>
+                </div>
+            </div>
+
+            <!-- Buttons grid -->
+            <div class="btn-grid">
+
+                <!-- Row 1: Function keys -->
+                <button class="btn fn" id="btn-deg" data-action="toggleDeg" title="Toggle Degrees/Radians">DEG</button>
+                <button class="btn fn" data-action="sin">sin</button>
+                <button class="btn fn" data-action="cos">cos</button>
+                <button class="btn fn" data-action="tan">tan</button>
+
+                <!-- Row 2 -->
+                <button class="btn fn" data-action="mc">MC</button>
+                <button class="btn fn" data-action="mr">MR</button>
+                <button class="btn fn" data-action="ms">MS</button>
+                <button class="btn fn" data-action="madd">M+</button>
+
+                <!-- Row 3 -->
+                <button class="btn fn" data-action="sqrt">√</button>
+                <button class="btn fn" data-action="square">x²</button>
+                <button class="btn fn" data-action="inv">1/x</button>
+                <button class="btn fn" data-action="log">log</button>
+
+                <!-- Row 4: Utility -->
+                <button class="btn util" data-action="clearAll">AC</button>
+                <button class="btn util" data-action="clearEntry">CE</button>
+                <button class="btn util" data-action="backspace">⌫</button>
+                <button class="btn op" data-action="op" data-val="÷">÷</button>
+
+                <!-- Row 5 -->
+                <button class="btn num" data-action="digit" data-val="7">7</button>
+                <button class="btn num" data-action="digit" data-val="8">8</button>
+                <button class="btn num" data-action="digit" data-val="9">9</button>
+                <button class="btn op" data-action="op" data-val="×">×</button>
+
+                <!-- Row 6 -->
+                <button class="btn num" data-action="digit" data-val="4">4</button>
+                <button class="btn num" data-action="digit" data-val="5">5</button>
+                <button class="btn num" data-action="digit" data-val="6">6</button>
+                <button class="btn op" data-action="op" data-val="−">−</button>
+
+                <!-- Row 7 -->
+                <button class="btn num" data-action="digit" data-val="1">1</button>
+                <button class="btn num" data-action="digit" data-val="2">2</button>
+                <button class="btn num" data-action="digit" data-val="3">3</button>
+                <button class="btn op" data-action="op" data-val="+">+</button>
+
+                <!-- Row 8 -->
+                <button class="btn num wide" data-action="digit" data-val="0">0</button>
+                <button class="btn num" data-action="decimal">.</button>
+                <button class="btn eq" data-action="equals">=</button>
+
+                <!-- Row 9: extras -->
+                <button class="btn fn" data-action="op" data-val="%">%</button>
+                <button class="btn fn" data-action="negate">+/−</button>
+                <button class="btn fn" data-action="pi">π</button>
+                <button class="btn fn" data-action="ln">ln</button>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

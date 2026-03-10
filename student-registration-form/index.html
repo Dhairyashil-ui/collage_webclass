@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <meta name="description" content="Create your student account to get started with your academic journey.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ═══════════════════ SPLIT LAYOUT ═══════════════════ -->
+    <div class="page">
+
+        <!-- LEFT PANEL — Branding -->
+        <aside class="panel-left">
+            <div class="deco-card deco-card-1"></div>
+            <div class="deco-card deco-card-2"></div>
+            <div class="orb orb-a"></div>
+            <div class="orb orb-b"></div>
+            <div class="orb orb-c"></div>
+
+            <div class="panel-left__content">
+                <div class="brand">
+                    <div class="brand-logo"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <span class="brand-name">Edu<span></span>Mate</span></span>
+                </div>
+
+                <div class="tagline">
+                    <h2>Start your<br><span class="grad-text">academic journey</span><br>today.</h2>
+                    <p>Join over <strong>50,000+</strong> students already learning on our platform.</p>
+                </div>
+
+                <ul class="feature-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Access 1,000+ courses</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Live mentorship sessions</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Industry-recognised certificates</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Placement support</li>
+                </ul>
+
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-num">50K+</div>
+                        <div class="stat-lbl">Students</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">1K+</div>
+                        <div class="stat-lbl">Courses</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num">98%</div>
+                        <div class="stat-lbl">Placement</div>
+                    </div>
+                </div>
+
+                <div class="avatars">
+                    <div class="avatar av1">S</div>
+                    <div class="avatar av2">R</div>
+                    <div class="avatar av3">M</div>
+                    <div class="avatar av4">+</div>
+                    <span class="avatar-label">50k+ students enrolled</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL — Form -->
+        <main class="panel-right">
+
+            <!-- FORM VIEW -->
+            <div class="form-view" id="formView">
+                <div class="form-header">
+                    <h1>Create <span>Account</span></h1>
+                    <p>Fill in the details below to register.</p>
+                    <!-- Progress bar -->
+                    <div class="progress-wrap">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="progress-label"><span id="progressLabel">0 / 8 fields complete</span><span
+                            class="progress-pct" id="progressPct">0%</span></div>
+                </div>
+
+                <form id="registrationForm" novalidate autocomplete="off">
+
+                    <!-- Row 1: Name + Student ID -->
+                    <div class="form-row">
+                        <div class="form-group" id="grp-name">
+                            <label for="name"><i class="fa-regular fa-user"></i> Full Name</label>
+                            <input type="text" id="name" placeholder="John Doe">
+                            <span class="tick"><i class="fa-solid fa-check"></i></span>
+                            <div class="err" id="err-name">Min. 2 characters required.</div>
+                        </div>
+                        <div class="form-group" id="grp-sid">
+                            <label for="sid"><i class="fa-solid fa-id-card"></i> Student ID</label>
+                            <input type="text" id="sid" placeholder="STU-2024-0001">
+                            <span class="tick"><i class="fa-solid fa-check"></i></span>
+                            <div class="err" id="err-sid">Format: STU-YYYY-XXXX</div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Email + Phone -->
+                    <div class="form-row">
+                        <div class="form-group" id="grp-email">
+                            <label for="email"><i class="fa-regular fa-envelope"></i> Email Address</label>
+                            <input type="email" id="email" placeholder="john@example.com">
+                            <span class="tick"><i class="fa-solid fa-check"></i></span>
+                            <div class="err" id="err-email">Enter a valid email.</div>
+                        </div>
+                        <div class="form-group" id="grp-phone">
+                            <label for="phone"><i class="fa-solid fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+91 98765 43210">
+                            <span class="tick"><i class="fa-solid fa-check"></i></span>
+                            <div class="err" id="err-phone">Enter a valid phone number.</div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Course + Gender -->
+                    <div class="form-row">
+                        <div class="form-group" id="grp-course">
+                            <label for="course"><i class="fa-solid fa-book-open"></i> Course / Department</label>
+                            <div class="select-wrap">
+                                <select id="course">
+                                    <option value="">Select a course…</option>
+                                    <option>Computer Science</option>
+                                    <option>Information Technology</option>
+                                    <option>Mechanical Engineering</option>
+                                    <option>Electronics & Telecom</option>
+                                    <option>Civil Engineering</option>
+                                    <option>MBA / Management</option>
+                                    <option>Data Science & AI</option>
+                                    <option>Pharmacy</option>
+                                    <option>Law</option>
+                                    <option>Arts & Humanities</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down sel-arrow"></i>
+                            </div>
+                            <span class="tick"><i class="fa-solid fa-check"></i></span>
+                            <div class="err" id="err-course">Please select a course.</div>
+                        </div>
+                        <div class="form-group radio-group" id="grp-gender">
+                            <label><i class="fa-solid fa-venus-mars"></i> Gender</label>
+                            <div class="radio-row">
+                                <label class="radio-pill">
+                                    <input type="radio" name="gender" value="male"> Male
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="gender" value="female"> Female
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="gender" value="other"> Other
+                                </label>
+                            </div>
+                            <div class="err" id="err-gender">Please select gender.</div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Password + Confirm -->
+                    <div class="form-row">
+                        <div class="form-group" id="grp-password">
+                            <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+                            <div class="pw-wrap">
+                                <input type="password" id="password" placeholder="Min. 8 characters">
+                                <button type="button" class="eye-btn" id="togglePw" aria-label="Toggle">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="strength-row" id="strengthRow">
+                                <div class="seg" id="s1"></div>
+                                <div class="seg" id="s2"></div>
+                                <div class="seg" id="s3"></div>
+                                <div class="seg" id="s4"></div>
+                            </div>
+                            <span class="tick pw-tick"><i class="fa-solid fa-check"></i></span>
+                            <div class="err" id="err-password">At least 8 characters.</div>
+                        </div>
+                        <div class="form-group" id="grp-confirm">
+                            <label for="confirm"><i class="fa-solid fa-shield-halved"></i> Confirm Password</label>
+                            <input type="password" id="confirm" placeholder="Re-enter password">
+                            <span class="tick"><i class="fa-solid fa-check"></i></span>
+                            <div class="err" id="err-confirm">Passwords do not match.</div>
+                        </div>
+                    </div>
+
+                    <!-- Terms + Submit -->
+                    <div class="form-footer">
+                        <label class="terms-label" id="grp-terms">
+                            <input type="checkbox" id="terms">
+                            <span class="custom-check"></span>
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                        <div class="err inline-err" id="err-terms">You must accept the terms.</div>
+
+                        <button type="submit" id="submitBtn">
+                            <span class="btn-text">
+                                <i class="fa-solid fa-rocket"></i> Create My Account
+                            </span>
+                            <span class="btn-loader" style="display:none">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Creating…
+                            </span>
+                        </button>
+
+                        <p class="signin-link">Already have an account? <a href="#">Sign in →</a></p>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- SUCCESS VIEW (hidden initially) -->
+            <div class="success-view" id="successView">
+                <div class="success-icon-wrap">
+                    <svg class="checkmark-svg" viewBox="0 0 52 52">
+                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                        <path class="checkmark-check" fill="none" d="M14 27 l8 8 l16-16" />
+                    </svg>
+                </div>
+                <h2>Welcome aboard! 🎉</h2>
+                <p id="successName">Your account has been created successfully.</p>
+                <div class="success-details" id="successDetails"></div>
+                <button class="btn-register-again" id="registerAgainBtn">
+                    <i class="fa-solid fa-rotate-left"></i> Register another student
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

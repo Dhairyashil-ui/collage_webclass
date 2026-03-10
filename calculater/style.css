@@ -1,0 +1,682 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SCENE & BODY  — dark studio backdrop
+════════════════════════════════════════════════════════════ */
+html,
+body {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse 70% 60% at 30% 30%, #1a1040 0%, transparent 60%),
+        radial-gradient(ellipse 60% 60% at 80% 80%, #0c1830 0%, transparent 60%),
+        #09090f;
+    perspective: 1200px;
+}
+
+/* Ambient particle field */
+.particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(120, 100, 255, 0.4);
+    animation: drift linear infinite;
+}
+
+@keyframes drift {
+    from {
+        transform: translateY(110vh) scale(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0.4;
+    }
+
+    to {
+        transform: translateY(-5vh) scale(1.6);
+        opacity: 0;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════
+   SCENE WRAPPER  — enables 3-D tilt
+════════════════════════════════════════════════════════════ */
+.scene {
+    position: relative;
+    z-index: 10;
+    transform-style: preserve-3d;
+    /* Subtle resting tilt so body is visible */
+    transform: rotateX(6deg) rotateY(-4deg);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.scene:hover {
+    transform: rotateX(2deg) rotateY(0deg);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CALCULATOR OUTER SHELL  — thick plastic body
+════════════════════════════════════════════════════════════ */
+.calculator {
+    position: relative;
+    width: 310px;
+    border-radius: 28px;
+    transform-style: preserve-3d;
+
+    /* TOP FACE */
+    background:
+        linear-gradient(170deg,
+            #2c2c3c 0%,
+            #1f1f2e 30%,
+            #191927 60%,
+            #141420 100%);
+
+    /* OUTER BORDER gives the rim */
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    /* PADDING inside the body */
+    padding: 18px 16px 22px;
+
+    /* MULTI-LAYER SHADOW = physical depth */
+    box-shadow:
+        /* Top edge highlight */
+        0 -1px 0 rgba(255, 255, 255, 0.08) inset,
+        /* Right edge dark */
+        2px 0 0 rgba(0, 0, 0, 0.4) inset,
+        /* Bottom face drop */
+        0 28px 60px -8px rgba(0, 0, 0, 0.85),
+        0 60px 120px -20px rgba(0, 0, 0, 0.7),
+        /* Colored glow on surface */
+        0 0 40px rgba(100, 80, 255, 0.08),
+        /* Tight ambient contact shadow */
+        0 6px 0 rgba(0, 0, 0, 0.9);
+
+    animation: calcIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes calcIn {
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Thick BOTTOM SLAB (3-D depth illusion) ── */
+.calculator::before {
+    content: '';
+    position: absolute;
+    bottom: -18px;
+    left: 6px;
+    right: 6px;
+    height: 20px;
+    border-radius: 0 0 28px 28px;
+    background: linear-gradient(180deg, #0b0a14 0%, #050509 100%);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.9),
+        0 2px 0 rgba(100, 80, 255, 0.06);
+    transform: translateZ(-2px);
+    z-index: -1;
+}
+
+/* ── Side DEPTH edge ── */
+.calculator::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: -12px;
+    right: -8px;
+    width: 8px;
+    border-radius: 0 8px 8px 0;
+    background: linear-gradient(90deg, #0d0c18 0%, #090810 100%);
+    transform: skewY(-1deg);
+}
+
+/* ── Fine texture overlay ── */
+.calc-texture {
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    background-image:
+        repeating-linear-gradient(45deg,
+            rgba(255, 255, 255, 0.012) 0px,
+            rgba(255, 255, 255, 0.012) 1px,
+            transparent 1px,
+            transparent 6px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Top surface gloss streak ── */
+.calc-gloss {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    border-radius: 28px 28px 0 0;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.055) 0%,
+            rgba(255, 255, 255, 0.01) 60%,
+            transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ════════════════════════════════════════════════════════════
+   BRAND STRIP
+════════════════════════════════════════════════════════════ */
+.brand-strip {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    margin-bottom: 12px;
+}
+
+.brand-model {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(180, 170, 255, 0.4);
+    text-transform: uppercase;
+}
+
+.model-num {
+    color: rgba(140, 120, 255, 0.65);
+}
+
+.led-indicators {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.led {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #1a1a2a;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.led.active {
+    background: radial-gradient(circle at 35% 35%, #5dfc8d 0%, #22c55e 60%, #15803d 100%);
+    box-shadow:
+        inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+        0 0 6px rgba(34, 197, 94, 0.7),
+        0 0 14px rgba(34, 197, 94, 0.4);
+    animation: blink 2.8s ease-in-out infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 6px rgba(34, 197, 94, 0.7), 0 0 14px rgba(34, 197, 94, 0.4);
+    }
+
+    50% {
+        opacity: 0.6;
+        box-shadow: 0 0 3px rgba(34, 197, 94, 0.3);
+    }
+}
+
+/* ════════════════════════════════════════════════════════════
+   LCD DISPLAY  — sunken into body
+════════════════════════════════════════════════════════════ */
+.display-panel {
+    position: relative;
+    z-index: 5;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    padding: 3px;
+
+    /* Recessed bezel */
+    background: #0b0912;
+    box-shadow:
+        /* deep inset shadow = sunken effect */
+        0 4px 12px rgba(0, 0, 0, 0.9) inset,
+        0 2px 6px rgba(0, 0, 0, 0.8) inset,
+        /* bezel top highlight */
+        0 -1px 0 rgba(255, 255, 255, 0.05),
+        /* outer rim */
+        0 1px 3px rgba(0, 0, 0, 0.7);
+
+    border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+/* LCD screen surface */
+.display-inner {
+    border-radius: 10px;
+    padding: 12px 14px 10px;
+    min-height: 96px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(160deg, #0c1c10 0%, #071208 50%, #050e07 100%);
+
+    /* LCD glow */
+    box-shadow: 0 0 20px rgba(100, 200, 120, 0.08) inset;
+}
+
+/* Scanlines */
+.display-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.07) 2px,
+            rgba(0, 0, 0, 0.07) 4px);
+    pointer-events: none;
+    border-radius: 10px;
+}
+
+/* Corner glint */
+.display-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(180deg,
+            rgba(180, 255, 200, 0.04) 0%,
+            transparent 100%);
+    border-radius: 10px 10px 0 0;
+    pointer-events: none;
+}
+
+.display-meta {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.mode-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(120, 220, 140, 0.7);
+    background: rgba(0, 60, 20, 0.4);
+    border: 1px solid rgba(80, 200, 100, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.mem-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: rgba(200, 180, 255, 0.6);
+    letter-spacing: 0.08em;
+}
+
+.expression {
+    position: relative;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(120, 200, 140, 0.5);
+    text-align: right;
+    min-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 3px;
+}
+
+.result {
+    position: relative;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: #b8ffca;
+    text-align: right;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-shadow:
+        0 0 12px rgba(120, 255, 160, 0.6),
+        0 0 30px rgba(80, 200, 120, 0.3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: font-size 0.15s;
+}
+
+.result.shrink {
+    font-size: 1.7rem;
+}
+
+.result.extra-shrink {
+    font-size: 1.2rem;
+}
+
+/* ════════════════════════════════════════════════════════════
+   BUTTON GRID
+════════════════════════════════════════════════════════════ */
+.btn-grid {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   BASE BUTTON  — TRUE 3-D physical key
+════════════════════════════════════════════════════════════ */
+.btn {
+    position: relative;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    outline: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    /* The KEY TRICK: border-bottom = the key's face height above its base */
+    border-bottom: 5px solid transparent;
+
+    /* Smooth press */
+    transition:
+        transform 0.07s ease,
+        border-bottom 0.07s ease,
+        box-shadow 0.07s ease;
+}
+
+/* Ripple layer */
+.btn::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    width: 0;
+    height: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.btn.ripple::after {
+    width: 160px;
+    height: 160px;
+    opacity: 0;
+}
+
+/* ── Physical PRESS state ── */
+.btn:active {
+    transform: translateY(4px) !important;
+    border-bottom-width: 1px !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   NUMBER BUTTONS  — light grey plastic key
+════════════════════════════════════════════════════════════ */
+.btn.num {
+    background: linear-gradient(160deg, #3a3a54 0%, #2a2a40 40%, #222234 100%);
+    color: #dde5ff;
+    font-size: 1.05rem;
+
+    border-bottom-color: #0e0e1c;
+
+    box-shadow:
+        /* Top highlight — light hits top of key face */
+        0 -1px 0 rgba(255, 255, 255, 0.12) inset,
+        /* Bottom edge shadow */
+        0 1px 0 rgba(0, 0, 0, 0.6) inset,
+        /* Left edge highlight */
+        -1px 0 0 rgba(255, 255, 255, 0.05) inset,
+        /* Outer drop shadows */
+        0 5px 0 rgba(10, 10, 22, 0.9),
+        0 6px 8px rgba(0, 0, 0, 0.7),
+        0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.btn.num:hover {
+    background: linear-gradient(160deg, #424263 0%, #323250 40%, #2a2a46 100%);
+    box-shadow:
+        0 -1px 0 rgba(255, 255, 255, 0.14) inset,
+        0 1px 0 rgba(0, 0, 0, 0.6) inset,
+        -1px 0 0 rgba(255, 255, 255, 0.06) inset,
+        0 5px 0 rgba(10, 10, 22, 0.9),
+        0 8px 12px rgba(0, 0, 0, 0.6),
+        0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.btn.num:active {
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.8) inset,
+        0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Wide 0 */
+.btn.wide {
+    grid-column: span 2;
+    border-radius: 10px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   OPERATOR BUTTONS  — blue-tinted key
+════════════════════════════════════════════════════════════ */
+.btn.op {
+    background: linear-gradient(160deg, #1e3464 0%, #162850 40%, #102040 100%);
+    color: #7aadff;
+    font-size: 1.25rem;
+
+    border-bottom-color: #061226;
+
+    box-shadow:
+        0 -1px 0 rgba(100, 160, 255, 0.12) inset,
+        0 1px 0 rgba(0, 0, 0, 0.7) inset,
+        -1px 0 0 rgba(100, 160, 255, 0.06) inset,
+        0 5px 0 rgba(4, 12, 32, 0.95),
+        0 6px 8px rgba(0, 0, 0, 0.7),
+        0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.btn.op:hover {
+    background: linear-gradient(160deg, #264280 0%, #1e3268 40%, #162850 100%);
+    color: #99c4ff;
+}
+
+.btn.op.active-op {
+    background: linear-gradient(160deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff;
+    box-shadow:
+        0 -1px 0 rgba(255, 255, 255, 0.2) inset,
+        0 1px 0 rgba(0, 0, 0, 0.5) inset,
+        0 5px 0 rgba(10, 30, 90, 0.9),
+        0 6px 14px rgba(37, 99, 235, 0.5);
+}
+
+.btn.op:active {
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.8) inset,
+        0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ════════════════════════════════════════════════════════════
+   EQUALS BUTTON  — glowing electric purple key
+════════════════════════════════════════════════════════════ */
+.btn.eq {
+    background: linear-gradient(160deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+    color: #fff;
+    font-size: 1.3rem;
+
+    border-bottom-color: #3b1e8e;
+
+    box-shadow:
+        0 -1px 0 rgba(255, 255, 255, 0.25) inset,
+        0 1px 0 rgba(0, 0, 0, 0.4) inset,
+        -1px 0 0 rgba(255, 255, 255, 0.12) inset,
+        0 5px 0 rgba(45, 15, 110, 0.95),
+        0 6px 12px rgba(109, 40, 217, 0.6),
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(139, 92, 246, 0.25);
+}
+
+.btn.eq:hover {
+    background: linear-gradient(160deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%);
+    box-shadow:
+        0 -1px 0 rgba(255, 255, 255, 0.3) inset,
+        0 1px 0 rgba(0, 0, 0, 0.4) inset,
+        0 5px 0 rgba(45, 15, 110, 0.95),
+        0 8px 18px rgba(109, 40, 217, 0.75),
+        0 0 28px rgba(167, 139, 250, 0.35);
+}
+
+.btn.eq:active {
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.6) inset,
+        0 1px 4px rgba(0, 0, 0, 0.4),
+        0 0 16px rgba(139, 92, 246, 0.4);
+}
+
+/* ════════════════════════════════════════════════════════════
+   UTILITY BUTTONS  — red-pink tinted (AC/CE/⌫)
+════════════════════════════════════════════════════════════ */
+.btn.util {
+    background: linear-gradient(160deg, #3a1830 0%, #2a1022 40%, #201018 100%);
+    color: #f472b6;
+    font-size: 0.82rem;
+
+    border-bottom-color: #100810;
+
+    box-shadow:
+        0 -1px 0 rgba(244, 114, 182, 0.12) inset,
+        0 1px 0 rgba(0, 0, 0, 0.7) inset,
+        -1px 0 0 rgba(244, 114, 182, 0.04) inset,
+        0 5px 0 rgba(10, 4, 14, 0.95),
+        0 6px 8px rgba(0, 0, 0, 0.7),
+        0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.btn.util:hover {
+    background: linear-gradient(160deg, #4e2040 0%, #3c1832 40%, #2e1228 100%);
+    color: #f9a8d4;
+}
+
+.btn.util:active {
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.8) inset,
+        0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ════════════════════════════════════════════════════════════
+   FUNCTION BUTTONS  — dark matte key
+════════════════════════════════════════════════════════════ */
+.btn.fn {
+    background: linear-gradient(160deg, #232330 0%, #1a1a26 40%, #141420 100%);
+    color: rgba(150, 160, 220, 0.75);
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+
+    border-bottom-color: #080810;
+
+    box-shadow:
+        0 -1px 0 rgba(255, 255, 255, 0.06) inset,
+        0 1px 0 rgba(0, 0, 0, 0.7) inset,
+        -1px 0 0 rgba(255, 255, 255, 0.03) inset,
+        0 5px 0 rgba(4, 4, 12, 0.95),
+        0 6px 8px rgba(0, 0, 0, 0.65),
+        0 2px 3px rgba(0, 0, 0, 0.45);
+}
+
+.btn.fn:hover {
+    background: linear-gradient(160deg, #2c2c3e 0%, #22223a 40%, #1c1c30 100%);
+    color: rgba(180, 190, 255, 0.9);
+    box-shadow:
+        0 -1px 0 rgba(255, 255, 255, 0.08) inset,
+        0 1px 0 rgba(0, 0, 0, 0.7) inset,
+        0 5px 0 rgba(4, 4, 12, 0.95),
+        0 8px 12px rgba(0, 0, 0, 0.6);
+}
+
+.btn.fn:active {
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.8) inset,
+        0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════════════════ */
+@media (max-width: 380px) {
+    .calculator {
+        width: 285px;
+        padding: 14px 12px 18px;
+    }
+
+    .btn {
+        height: 44px;
+        font-size: 0.78rem;
+    }
+
+    .result {
+        font-size: 1.9rem;
+    }
+
+    .btn-grid {
+        gap: 6px;
+    }
+}
