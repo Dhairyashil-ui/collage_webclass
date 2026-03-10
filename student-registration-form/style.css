@@ -531,8 +531,9 @@ body {
 /* Floating label style */
 .form-group label {
     font-size: .72rem;
-    font-weight: 700;
-    color: #475569;
+    font-weight: 800;
+    color: #1e293b;
+    /* darker — was #475569 */
     margin-bottom: .3rem;
     display: flex;
     align-items: center;
@@ -546,7 +547,7 @@ body {
     color: var(--accent);
     width: 16px;
     height: 16px;
-    background: rgba(124, 58, 237, .1);
+    background: rgba(124, 58, 237, .14);
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -564,28 +565,35 @@ body {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 500;
     color: var(--ink);
-    background: #fff;
-    border: 1.5px solid #dde2ef;
+    /* Slight blue-tint — stands out clearly from the page */
+    background: #f8f9ff;
+    /* Darker border — was #dde2ef, now clearly visible */
+    border: 1.5px solid #b8c0d8;
     border-radius: 11px;
     outline: none;
     width: 100%;
     transition: border .2s, box-shadow .2s, background .2s;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);
+    /* Subtle inset + drop shadow gives each field visible depth */
+    box-shadow:
+        0 1px 4px rgba(0, 0, 0, .08),
+        inset 0 1px 3px rgba(0, 0, 0, .05);
 }
 
 .form-group input::placeholder {
-    color: #c0c9e0;
+    /* Readable grey — was #c0c9e0 (too faint) */
+    color: #8d96b0;
     font-weight: 400;
 }
 
 .form-group input:focus {
     border-color: var(--p1);
-    box-shadow: 0 0 0 3.5px var(--focus-ring), 0 1px 3px rgba(0, 0, 0, .05);
+    box-shadow: 0 0 0 3.5px var(--focus-ring), 0 1px 4px rgba(0, 0, 0, .08);
     background: #fff;
 }
 
 .form-group input:hover:not(:focus) {
-    border-color: #b8bfce;
+    border-color: #8a93b4;
+    background: #f5f6ff;
 }
 
 /* Select */
@@ -601,20 +609,27 @@ body {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 500;
     color: var(--ink);
-    background: #fff;
-    border: 1.5px solid #dde2ef;
+    background: #f8f9ff;
+    border: 1.5px solid #b8c0d8;
     border-radius: 11px;
     outline: none;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
     transition: border .2s, box-shadow .2s;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .08), inset 0 1px 3px rgba(0, 0, 0, .05);
 }
 
 .select-wrap select:focus {
     border-color: var(--p1);
-    box-shadow: 0 0 0 3.5px var(--focus-ring);
+    box-shadow: 0 0 0 3.5px var(--focus-ring), 0 1px 4px rgba(0, 0, 0, .08);
+    background: #fff;
+}
+
+/* Default option hint colour */
+.select-wrap select:invalid,
+.select-wrap select option:first-child {
+    color: #8d96b0;
 }
 
 .sel-arrow {
@@ -622,7 +637,7 @@ body {
     right: .75rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #a0aec0;
+    color: #6b7280;
     font-size: .65rem;
     pointer-events: none;
 }
@@ -644,15 +659,17 @@ body {
     gap: .35rem;
     font-size: .76rem;
     font-weight: 600;
-    color: #64748b;
-    background: #fff;
-    border: 1.5px solid #dde2ef;
+    color: #374151;
+    /* darker text */
+    background: #f8f9ff;
+    border: 1.5px solid #b8c0d8;
+    /* matches input borders */
     border-radius: 9px;
     padding: .38rem .7rem;
     cursor: pointer;
     transition: all .18s ease;
     user-select: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .07);
 }
 
 .radio-pill input[type="radio"] {
@@ -660,15 +677,15 @@ body {
 }
 
 .radio-pill:has(input:checked) {
-    background: linear-gradient(135deg, rgba(124, 58, 237, .08), rgba(6, 182, 212, .06));
+    background: linear-gradient(135deg, rgba(124, 58, 237, .1), rgba(6, 182, 212, .07));
     border-color: var(--p1);
     color: var(--p1);
     box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .radio-pill:hover:not(:has(input:checked)) {
-    border-color: #b8bfce;
-    background: #f8f9ff;
+    border-color: #8a93b4;
+    background: #f4f5ff;
 }
 
 /* Tick marks */
