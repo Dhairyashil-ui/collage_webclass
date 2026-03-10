@@ -4,106 +4,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <meta name="description" content="A premium, realistic calculator with full functionality.">
+    <title>Calculator — FX-991 PRO</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="scene">
-        <!-- Background particles -->
-        <div class="particles" id="particles"></div>
+    <div class="particles" id="particles"></div>
 
-        <div class="calculator" id="calculator">
-            <!-- Brand strip -->
-            <div class="brand-strip">
-                <span class="brand-model">CALC · PRO <span class="model-num">FX-991</span></span>
-                <div class="led-indicators">
-                    <span class="led active"></span>
-                    <span class="led"></span>
-                    <span class="led"></span>
+    <!--
+        SCENE  — perspective root + mouse tilt target
+        CALC-3D — preserve-3d wrapper holding all 3D faces
+        .calc-face   — visible front face (all buttons / display)
+        .calc-back   — rear face
+        .calc-edge-* — the four THICK side slabs
+    -->
+    <div class="scene" id="scene">
+        <div class="calc-3d" id="calc3d">
+
+            <!-- ══ FRONT FACE ══ -->
+            <div class="calc-face" id="calculator">
+                <div class="calc-texture"></div>
+                <div class="calc-gloss"></div>
+
+                <!-- Brand -->
+                <div class="brand-strip">
+                    <span class="brand-model">CALC·PRO <span class="model-num">FX-991</span></span>
+                    <div class="led-indicators">
+                        <span class="led active"></span>
+                        <span class="led"></span>
+                        <span class="led"></span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Display panel -->
-            <div class="display-panel">
-                <div class="display-inner">
-                    <div class="display-meta">
-                        <span class="mode-badge" id="modeBadge">DEG</span>
-                        <div class="mem-indicators">
+                <!-- Display -->
+                <div class="display-panel">
+                    <div class="display-inner">
+                        <div class="display-meta">
+                            <span class="mode-badge" id="modeBadge">DEG</span>
                             <span class="mem-label" id="memInd" style="display:none">M</span>
                         </div>
+                        <div id="expression" class="expression"></div>
+                        <div id="result" class="result">0</div>
                     </div>
-                    <div id="expression" class="expression"></div>
-                    <div id="result" class="result">0</div>
+                </div>
+
+                <!-- Button grid -->
+                <div class="btn-grid">
+                    <button class="btn fn" id="btn-deg" data-action="toggleDeg">DEG</button>
+                    <button class="btn fn" data-action="sin">sin</button>
+                    <button class="btn fn" data-action="cos">cos</button>
+                    <button class="btn fn" data-action="tan">tan</button>
+
+                    <button class="btn fn" data-action="mc">MC</button>
+                    <button class="btn fn" data-action="mr">MR</button>
+                    <button class="btn fn" data-action="ms">MS</button>
+                    <button class="btn fn" data-action="madd">M+</button>
+
+                    <button class="btn fn" data-action="sqrt">√</button>
+                    <button class="btn fn" data-action="square">x²</button>
+                    <button class="btn fn" data-action="inv">1/x</button>
+                    <button class="btn fn" data-action="log">log</button>
+
+                    <button class="btn util" data-action="clearAll">AC</button>
+                    <button class="btn util" data-action="clearEntry">CE</button>
+                    <button class="btn util" data-action="backspace">⌫</button>
+                    <button class="btn op" data-action="op" data-val="÷">÷</button>
+
+                    <button class="btn num" data-action="digit" data-val="7">7</button>
+                    <button class="btn num" data-action="digit" data-val="8">8</button>
+                    <button class="btn num" data-action="digit" data-val="9">9</button>
+                    <button class="btn op" data-action="op" data-val="×">×</button>
+
+                    <button class="btn num" data-action="digit" data-val="4">4</button>
+                    <button class="btn num" data-action="digit" data-val="5">5</button>
+                    <button class="btn num" data-action="digit" data-val="6">6</button>
+                    <button class="btn op" data-action="op" data-val="−">−</button>
+
+                    <button class="btn num" data-action="digit" data-val="1">1</button>
+                    <button class="btn num" data-action="digit" data-val="2">2</button>
+                    <button class="btn num" data-action="digit" data-val="3">3</button>
+                    <button class="btn op" data-action="op" data-val="+">+</button>
+
+                    <button class="btn num wide" data-action="digit" data-val="0">0</button>
+                    <button class="btn num" data-action="decimal">.</button>
+                    <button class="btn eq" data-action="equals">=</button>
+
+                    <button class="btn fn" data-action="op" data-val="%">%</button>
+                    <button class="btn fn" data-action="negate">+/−</button>
+                    <button class="btn fn" data-action="pi">π</button>
+                    <button class="btn fn" data-action="ln">ln</button>
                 </div>
             </div>
+            <!-- ══ END FRONT FACE ══ -->
 
-            <!-- Buttons grid -->
-            <div class="btn-grid">
+            <!-- ══ 3D THICKNESS FACES ══ -->
+            <!-- These real divs (NOT pseudo-elements) live in 3D space -->
+            <div class="calc-back"></div>
+            <div class="calc-edge calc-edge-bottom"></div>
+            <div class="calc-edge calc-edge-top"></div>
+            <div class="calc-edge calc-edge-left"></div>
+            <div class="calc-edge calc-edge-right"></div>
 
-                <!-- Row 1: Function keys -->
-                <button class="btn fn" id="btn-deg" data-action="toggleDeg" title="Toggle Degrees/Radians">DEG</button>
-                <button class="btn fn" data-action="sin">sin</button>
-                <button class="btn fn" data-action="cos">cos</button>
-                <button class="btn fn" data-action="tan">tan</button>
-
-                <!-- Row 2 -->
-                <button class="btn fn" data-action="mc">MC</button>
-                <button class="btn fn" data-action="mr">MR</button>
-                <button class="btn fn" data-action="ms">MS</button>
-                <button class="btn fn" data-action="madd">M+</button>
-
-                <!-- Row 3 -->
-                <button class="btn fn" data-action="sqrt">√</button>
-                <button class="btn fn" data-action="square">x²</button>
-                <button class="btn fn" data-action="inv">1/x</button>
-                <button class="btn fn" data-action="log">log</button>
-
-                <!-- Row 4: Utility -->
-                <button class="btn util" data-action="clearAll">AC</button>
-                <button class="btn util" data-action="clearEntry">CE</button>
-                <button class="btn util" data-action="backspace">⌫</button>
-                <button class="btn op" data-action="op" data-val="÷">÷</button>
-
-                <!-- Row 5 -->
-                <button class="btn num" data-action="digit" data-val="7">7</button>
-                <button class="btn num" data-action="digit" data-val="8">8</button>
-                <button class="btn num" data-action="digit" data-val="9">9</button>
-                <button class="btn op" data-action="op" data-val="×">×</button>
-
-                <!-- Row 6 -->
-                <button class="btn num" data-action="digit" data-val="4">4</button>
-                <button class="btn num" data-action="digit" data-val="5">5</button>
-                <button class="btn num" data-action="digit" data-val="6">6</button>
-                <button class="btn op" data-action="op" data-val="−">−</button>
-
-                <!-- Row 7 -->
-                <button class="btn num" data-action="digit" data-val="1">1</button>
-                <button class="btn num" data-action="digit" data-val="2">2</button>
-                <button class="btn num" data-action="digit" data-val="3">3</button>
-                <button class="btn op" data-action="op" data-val="+">+</button>
-
-                <!-- Row 8 -->
-                <button class="btn num wide" data-action="digit" data-val="0">0</button>
-                <button class="btn num" data-action="decimal">.</button>
-                <button class="btn eq" data-action="equals">=</button>
-
-                <!-- Row 9: extras -->
-                <button class="btn fn" data-action="op" data-val="%">%</button>
-                <button class="btn fn" data-action="negate">+/−</button>
-                <button class="btn fn" data-action="pi">π</button>
-                <button class="btn fn" data-action="ln">ln</button>
-
-            </div>
-        </div>
-    </div>
+        </div><!-- /calc-3d -->
+    </div><!-- /scene -->
 
     <script src="script.js"></script>
+
+    <!-- Live 3D mouse-tilt -->
+    <script>
+        const sceneEl = document.getElementById('scene');
+        let raf;
+        document.addEventListener('mousemove', (e) => {
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+                const cx = window.innerWidth / 2;
+                const cy = window.innerHeight / 2;
+                const dx = (e.clientX - cx) / cx;
+                const dy = (e.clientY - cy) / cy;
+                const rX = (-dy * 14).toFixed(2);
+                const rY = (dx * 16).toFixed(2);
+                sceneEl.style.transform = `rotateX(${rX}deg) rotateY(${rY}deg)`;
+            });
+        });
+        document.addEventListener('mouseleave', () => {
+            sceneEl.style.transition = 'transform 0.9s cubic-bezier(0.23,1,0.32,1)';
+            sceneEl.style.transform = 'rotateX(8deg) rotateY(-6deg)';
+            setTimeout(() => sceneEl.style.transition = '', 950);
+        });
+    </script>
 </body>
 
 </html>
